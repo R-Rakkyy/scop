@@ -1,0 +1,14 @@
+*.o
+*.a
+*.so
+*.dll
+*.exe
+*.d
+
+.obj/
+.deps/
+.bin/
+
+*ressources/bonus/*
+
+scop

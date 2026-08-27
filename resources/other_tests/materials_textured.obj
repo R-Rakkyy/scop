@@ -1,0 +1,27 @@
+# exercises "map_Kd"/"map_bump" texture loading: a real decodable diffuse
+# texture, a real decodable bump texture, and a map_Kd that points at a
+# file that fails to decode (decode_texture_file must fail gracefully,
+# ObjTexture.decoded stays false, Renderer::upload_mesh falls back to the
+# base texture instead of crashing).
+
+mtllib materials_textured.mtl
+
+usemtl textured_quad
+v -1.0 -1.0 0.0
+v  1.0 -1.0 0.0
+v  1.0  1.0 0.0
+v -1.0  1.0 0.0
+vt 0.0 0.0
+vt 1.0 0.0
+vt 1.0 1.0
+vt 0.0 1.0
+f 1/1 2/2 3/3
+f 1/1 3/3 4/4
+
+usemtl broken_texture_falls_back
+v 2.0 -1.0 0.0
+v 4.0 -1.0 0.0
+v 4.0  1.0 0.0
+v 2.0  1.0 0.0
+f 5 6 7
+f 5 7 8

@@ -1,0 +1,67 @@
+# GLFW / Wayland
+leak:glfwCreateWindow
+leak:wl_display_connect
+leak:wl_display_dispatch
+leak:wl_display_roundtrip
+leak:wl_display_flush
+leak:wl_proxy_marshal_constructor
+
+# Fontconfig / Pango / Cairo
+leak:FcInit
+leak:FcConfigCreate
+leak:FcPatternCreate
+leak:FcNameParse
+leak:pango_font_map_get_default
+leak:pango_cairo_font_map_get
+
+# libdecor / gtk / theme engines
+leak:libdecor_new
+
+# Generic symbols sometimes shown in leaks from system libs
+# leak:dlopen
+# leak:__libc_malloc
+
+# Additional suppressions added from latest LSan output
+# GLFW
+leak:glfwInit
+leak:glfwCreateWindow
+
+# libdecor / libdecor-gtk plugin
+leak:libdecor_frame_commit
+
+# Fontconfig / Pango / Pangocairo
+leak:FcFontSetList
+leak:FcFontRenderPrepare
+leak:FcValueSave
+leak:FcLangSetCopy
+leak:pango_context_get_metrics
+leak:pangoft2_*
+
+# GTK widget metrics
+leak:gtk_widget_get_preferred_width
+leak:gtk_widget_get_preferred_height
+leak:gtk_widget_get_preferred_height_and_baseline_for_width
+
+# DBus / accessibility
+leak:dbus_message_new_error
+leak:dbus_connection_send_with_reply
+leak:dbus_pending_call_block
+
+# libffi allocations used by libdecor (small persistent closures)
+leak:ffi_closure_alloc
+leak:ffi_closure_free
+leak:ffi_prep_closure_loc
+
+# also include versioned/alternate symbol names seen in system libs
+leak:ffi_closure_alloc@@LIBFFI_CLOSURE_8.0
+leak:ffi_closure_free@@LIBFFI_CLOSURE_8.0
+leak:ffi_prep_closure_loc@@LIBFFI_CLOSURE_8.0
+leak:ffi_prep_closure@@LIBFFI_CLOSURE_8.0
+leak:ffi_prep_raw_closure_loc@@LIBFFI_CLOSURE_8.0
+leak:ffi_call_go@@LIBFFI_GO_CLOSURE_8.0
+leak:ffi_get_closure_size@@LIBFFI_BASE_8.1
+
+#
+leak:libdecor*
+leak:/usr/lib/libdecor*
+

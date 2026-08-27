@@ -1,0 +1,19 @@
+# exercises "mtllib" with more than one filename on a single line, and the
+# no-usemtl-yet default-material rule: handle_mtllib_line only seeds
+# current_material_name from a file's first material if it's still empty,
+# so with no "usemtl" here the whole object should end up using
+# mtllib_a.mtl's only material ("from_file_a"), never mtllib_b.mtl's.
+
+mtllib materials_multi_mtllib_a.mtl materials_multi_mtllib_b.mtl
+
+v 0.0 0.0 0.0
+v 1.0 0.0 0.0
+v 0.0 1.0 0.0
+f 1 2 3
+
+# an explicit usemtl for the second file's material still works normally
+usemtl from_file_b
+v 2.0 0.0 0.0
+v 3.0 0.0 0.0
+v 2.0 1.0 0.0
+f 4 5 6

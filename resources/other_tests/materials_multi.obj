@@ -1,0 +1,44 @@
+# exercises material resolution: multiple usemtl swaps within one object
+# (Renderer::upload_mesh groups sorted-by-material_id runs), an unresolved
+# material name (never defined in the mtllib -> material_id == -1, falls
+# back to the base texture/default material_ubo), and going back to a
+# material already used earlier (must reuse its index, not duplicate it).
+
+mtllib materials_multi.mtl
+
+o multi_material_object
+usemtl red_shiny
+v 0.0 0.0 0.0
+v 1.0 0.0 0.0
+v 0.0 1.0 0.0
+f 1 2 3
+
+usemtl green_dull
+v 2.0 0.0 0.0
+v 3.0 0.0 0.0
+v 2.0 1.0 0.0
+f 4 5 6
+
+usemtl this_material_was_never_defined
+v 4.0 0.0 0.0
+v 5.0 0.0 0.0
+v 4.0 1.0 0.0
+f 7 8 9
+
+usemtl red_shiny
+v 6.0 0.0 0.0
+v 7.0 0.0 0.0
+v 6.0 1.0 0.0
+f 10 11 12
+
+usemtl partial_values
+v 8.0 0.0 0.0
+v 9.0 0.0 0.0
+v 8.0 1.0 0.0
+f 13 14 15
+
+usemtl unsupported_keys_ignored
+v 10.0 0.0 0.0
+v 11.0 0.0 0.0
+v 10.0 1.0 0.0
+f 16 17 18

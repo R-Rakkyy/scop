@@ -1,0 +1,32 @@
+# exercises "o" object boundaries and what does/doesn't reset across them.
+# positions/normals/texcoords are file-global (ParserState comment) and
+# current_material_name/current_smoothing_group are never cleared by
+# finalize_object() either -- both persist past an "o" line.
+
+mtllib multi_object.mtl
+
+# case: an "o" line with nothing built yet just renames the in-progress
+# (still-empty) object in place -- parser_state_object_is_empty() is true,
+# so this does NOT push an extra empty ObjMesh before "renamed_immediately"
+o discarded_name
+o renamed_immediately
+usemtl only_material
+v 0.0 0.0 0.0
+v 1.0 0.0 0.0
+v 0.0 1.0 0.0
+f 1 2 3
+
+# case: second object, no new "usemtl" -- material must still be
+# "only_material" (persists across the "o" boundary)
+o second_object
+v 2.0 0.0 0.0
+v 3.0 0.0 0.0
+v 2.0 1.0 0.0
+f 4 5 6
+
+# case: third object references a vertex defined back in the FIRST object's
+# block (index 1) -- proves positions are file-global, not per-object
+o third_object_reuses_global_vertices
+v 4.0 0.0 0.0
+v 4.0 1.0 0.0
+f 1 7 8

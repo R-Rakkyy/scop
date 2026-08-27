@@ -1,0 +1,46 @@
+# exercises dispatch_line()'s default case: any keyword it doesn't
+# recognize is silently skipped, never aborts the parse. "g" (polygon
+# groups) specifically is NOT in the dispatch table -- scop doesn't use
+# it (no per-group selection), so it must fall through here too.
+
+g my_group_one
+v 0.0 0.0 0.0
+v 1.0 0.0 0.0
+v 0.0 1.0 0.0
+f 1 2 3
+
+g my_group_two another_group_tag
+v 2.0 0.0 0.0
+v 3.0 0.0 0.0
+v 2.0 1.0 0.0
+f 4 5 6
+
+# free-form-geometry / curve keywords from the wider OBJ spec that scop
+# never implemented -- must be ignored, not misparsed as something else
+vp 0.5 0.5
+cstype bezier
+deg 3
+curv 0.0 1.0 1 2 3 4
+curv2 1 2 3 4
+surf 0.0 1.0 0.0 1.0 1 2 3 4
+parm u 0.0 1.0
+trim 0.0 1.0 1
+hole 0.0 1.0 1
+scrv 0.0 1.0 1
+sp 1
+end
+con 1 2 3 4
+mg 1 0.5
+bevel on
+c_interp on
+d_interp off
+lod 0
+shadow_obj shadow.obj
+trace_obj trace.obj
+ctech cparm 1.0
+stech cparm 1.0
+
+v 4.0 0.0 0.0
+v 5.0 0.0 0.0
+v 4.0 1.0 0.0
+f 7 8 9

@@ -1,0 +1,40 @@
+# extends edge_cases.obj: more malformed/degenerate input that must degrade
+# gracefully (warn + skip token/line/face) instead of aborting the parse.
+
+# case: baseline valid triangle so the mesh isn't empty
+v 0.0 0.0 0.0
+v 1.0 0.0 0.0
+v 0.0 1.0 0.0
+f 1 2 3
+
+# case: "v"/"f" with zero arguments -- rest is empty, must not crash
+v
+f
+
+# case: face with only 2 tokens -- always degenerate, skipped outright
+f 1 2
+
+# case: face where enough corners get dropped that fewer than 3 remain
+# (2 valid + 2 out-of-range) -- whole face skipped, not clamped to a
+# 2-corner line
+f 1 2 999 888
+
+# case: face where dropping corners still leaves exactly 3 -- kept
+f 1 2 3 999
+
+# case: "vn 0 0 0" -- zero-length explicit normal. handle_normal_line's
+# guard (len > 1e-9f) must skip normalizing instead of dividing by zero;
+# the corner should end up with the raw (0,0,0), not NaN
+vn 0.0 0.0 0.0
+f 1//4 2//4 3//4
+
+# case: face corner references a syntactically-valid but out-of-range
+# vt/vn index (positive, beyond what's defined) -- resolve_index() itself
+# doesn't upper-bound-check, so this relies on the size check at the
+# point of use (build_triangle_vertex / resolve_vertex_normal)
+vt 0.0 0.0
+f 1/999/999 2/999/999 3/999/999
+
+# case: face token that is only a slash with nothing else ("//" alone) --
+# empty v token must fail to parse and drop the whole corner
+f 1 2 //

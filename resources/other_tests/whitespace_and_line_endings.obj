@@ -1,0 +1,10 @@
+# exercises whitespace/line-ending tolerance: tabs as token separators,
+# leading/trailing whitespace, blank lines, CRLF line endings, and a
+# comment-only line in the middle of geometry.
+
+	v	0.0	0.0	0.0	
+   v 1.0 0.0 0.0   
+	v	0.0	1.0	0.0
+
+# comment sitting between vertices and the face that uses them
+	f	1	2	3	

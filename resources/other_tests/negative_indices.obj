@@ -1,0 +1,26 @@
+# exercises resolve_index()'s relative/negative form on every directive
+# that uses it: v (via f), vt, vn, f, l, p.
+# idx = count + idx + 1, so "-1" always means "the last one defined so far".
+
+v 0.0 0.0 0.0
+v 1.0 0.0 0.0
+v 0.0 1.0 0.0
+vt 0.0 0.0
+vt 1.0 0.0
+vt 0.5 1.0
+vn 0.0 0.0 1.0
+
+# all-negative face: -3/-3, -2/-2, -1/-1 with the single trailing vn (-1)
+f -3/-3/-1 -2/-2/-1 -1/-1/-1
+
+v 2.0 0.0 0.0
+v 3.0 0.0 0.0
+v 2.5 1.0 0.0
+
+# negative line/point indices against the running vertex count
+l -3 -2 -1 -3
+p -1 -2 -3
+
+# case: an index that resolves past the start of the file (too negative)
+# must be rejected, not wrap or underflow
+l -999 -1

@@ -1,0 +1,17 @@
+# a mesh with ONLY "l"/"p" geometry and no "f" at all.
+#
+# load_obj()/finalize_object() still produce an ObjMesh for this (it isn't
+# "empty" -- parser_state_object_is_empty() checks faces AND lines AND
+# points), so Application::load_obj_file() accepts the file.
+#
+# but Renderer::upload_mesh() bails out early on mesh.vertices.empty()
+# (vertices only ever come from "f"), so this object is expected to be
+# logged ("mesh upload failed for ...") and skipped by Engine, not crash.
+
+o wireframe_only
+v 0.0 0.0 0.0
+v 1.0 0.0 0.0
+v 1.0 1.0 0.0
+v 0.0 1.0 0.0
+l 1 2 3 4 1
+p 1 2 3 4

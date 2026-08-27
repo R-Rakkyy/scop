@@ -1,0 +1,42 @@
+# exercises "l": every accepted and every gracefully-dropped case
+
+# baseline triangle so the mesh isn't empty (upload_mesh needs >=1 face)
+v 0.0 0.0 0.0
+v 1.0 0.0 0.0
+v 0.0 1.0 0.0
+f 1 2 3
+
+# case: a single "l" statement with >2 vertices is one connected polyline,
+# not N separate segments
+v 2.0 0.0 0.0
+v 2.0 1.0 0.0
+v 3.0 1.0 0.0
+v 3.0 0.0 0.0
+l 4 5 6 7 4
+
+# case: "v/vt" form -- the vt half must parse but is not used to look up
+# anything (handle_line_line only keeps the v index)
+vt 0.0 0.0
+vt 1.0 1.0
+l 4/1 6/2
+
+# case: negative/relative indices, resolved against the running vertex count
+l -1 -4
+
+# case: out-of-range vertex index -- token silently dropped, not a hard fail
+l 4 999 5
+
+# case: non-numeric token -- token silently dropped
+l 4 notanumber 5
+
+# case: degenerate line (fewer than 2 resolved points after drops) -- the
+# whole statement is skipped, not a crash
+l 4
+l 999 888
+
+# case: two separate "l" statements sharing an endpoint (disconnected segments)
+v 0.0 2.0 0.0
+v 1.0 2.0 0.0
+v 1.0 3.0 0.0
+l 8 9
+l 9 10

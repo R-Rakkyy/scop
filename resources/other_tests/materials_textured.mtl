@@ -1,0 +1,10 @@
+newmtl textured_quad
+Kd 1.0 1.0 1.0
+Ks 0.3 0.3 0.3
+Ns 20
+map_Kd checker_diffuse.png
+map_bump bump_pattern.png
+
+newmtl broken_texture_falls_back
+Kd 1.0 1.0 1.0
+map_Kd broken_texture.png

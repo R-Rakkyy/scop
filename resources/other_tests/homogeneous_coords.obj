@@ -1,0 +1,19 @@
+# exercises the optional 4th "w" component on "v" lines
+# (handle_vertex_line: x/=w, y/=w, z/=w when w is present and != 0 and != 1)
+
+# case: w == 2 -> position halved
+v 2.0 4.0 6.0 2.0
+# case: w omitted -> defaults to 1.0, no division
+v 1.0 2.0 3.0
+# case: w == 1 explicitly -> no-op division, same as omitted
+v 1.0 2.0 3.0 1.0
+# case: w == 0 -> must NOT divide by zero (fabs(w) > 1e-9 guard), position
+# kept as-written
+v 1.0 2.0 3.0 0.0
+# case: w very close to zero but nonzero -- still guarded off by the
+# same epsilon check, treated like w == 0
+v 1.0 2.0 3.0 0.0000000001
+
+f 1 2 3
+f 2 3 4
+f 3 4 5

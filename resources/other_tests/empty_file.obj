@@ -1,0 +1,12 @@
+# exercises the "no geometry at all" boundary. load_obj() itself still
+# returns true (parsing succeeded), but state.objects stays empty since
+# finalize_object() no-ops on parser_state_object_is_empty(); it's
+# Application::load_obj_file() that then treats an empty object list as
+# a hard failure ("no mesh objects found in ...").
+#
+# expected to be rejected at the Application layer -- run this one alone,
+# not mixed into a multi-path invocation (Application::load_obj_paths
+# bails out on the first failing path and never loads the rest).
+
+# just comments and blank lines below
+

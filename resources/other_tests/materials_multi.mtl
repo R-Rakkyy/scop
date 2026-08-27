@@ -1,0 +1,30 @@
+newmtl red_shiny
+Kd 1.0 0.0 0.0
+Ks 1.0 1.0 1.0
+Ns 500
+
+newmtl green_dull
+Kd 0.0 1.0 0.0
+Ks 0.0 0.0 0.0
+Ns 1
+
+# unsupported keys from the wider MTL spec (ambient, refraction index,
+# dissolve, illumination model) -- parse_material_directive() doesn't
+# implement them, must be ignored without breaking the rest of the block,
+# including the real "Kd" that comes after them
+newmtl unsupported_keys_ignored
+Ka 1.0 1.0 1.0
+Tr 0.5
+Ni 1.5
+d 0.8
+illum 2
+map_Ka somefile.png
+map_Ks somefile.png
+refl -type sphere somefile.png
+Kd 0.5 0.5 0.5
+
+# only Kd's first component given -- Ks/Ns must keep ObjMaterial's
+# defaults (Kd = {given, 1.0, 1.0} since parse_floats leaves untouched
+# slots at their pre-existing value, not zero)
+newmtl partial_values
+Kd 0.2

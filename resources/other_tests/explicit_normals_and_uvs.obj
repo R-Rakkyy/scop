@@ -1,0 +1,38 @@
+# exercises explicit "vn"/"vt" attached to face corners
+
+# case: "v//vn" (no vt) -- explicit normal per corner, skips smoothing
+# entirely (resolve_vertex_normal takes the ref.vn branch first)
+v 0.0 0.0 0.0
+v 1.0 0.0 0.0
+v 0.0 1.0 0.0
+vn 0.0 0.0 1.0
+f 1//1 2//1 3//1
+
+# case: deliberately non-unit "vn" -- handle_normal_line must normalize it
+# on load (len = sqrt(9) = 3, stored as (0,0,1))
+vn 0.0 0.0 3.0
+v 2.0 0.0 0.0
+v 3.0 0.0 0.0
+v 2.0 1.0 0.0
+f 4//2 5//2 6//2
+
+# case: full "v/vt/vn" triples -- exercises the UV v-flip
+# (out.uv[1] = 1.0f - vt.v) with vt spanning the full 0..1 range
+vt 0.0 0.0
+vt 1.0 0.0
+vt 0.5 1.0
+vn 0.0 0.0 1.0
+v 4.0 0.0 0.0
+v 5.0 0.0 0.0
+v 4.5 1.0 0.0
+f 7/1/3 8/2/3 9/3/3
+
+# case: "v/vt" (no vn) -- falls back to flat/smoothing-accumulated normal
+# even though vt is present
+vt 0.0 0.0
+vt 1.0 0.0
+vt 0.5 1.0
+v 6.0 0.0 0.0
+v 7.0 0.0 0.0
+v 6.5 1.0 0.0
+f 10/4 11/5 12/6

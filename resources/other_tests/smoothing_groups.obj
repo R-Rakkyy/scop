@@ -1,0 +1,69 @@
+# exercises "s" smoothing groups: same faceted cone rendered 3 ways so the
+# effect on normals (accumulate_face_normals / normalize_accumulated_normals
+# / resolve_vertex_normal) is directly comparable side by side.
+
+# ---- cone A: default state, no "s" ever issued -> group 0 -> every face
+# keeps its own flat face-normal, no averaging across faces at all
+o cone_flat_default
+v 0.0 2.0 0.0
+v 1.000000 0.0 0.000000
+v 0.707107 0.0 0.707107
+v 0.000000 0.0 1.000000
+v -0.707107 0.0 0.707107
+v -1.000000 0.0 0.000000
+v -0.707107 0.0 -0.707107
+v -0.000000 0.0 -1.000000
+v 0.707107 0.0 -0.707107
+f 1 2 3
+f 1 3 4
+f 1 4 5
+f 1 5 6
+f 1 6 7
+f 1 7 8
+f 1 8 9
+f 1 9 2
+
+# ---- cone B: explicit "s 1" for every face -> all faces in the same
+# smoothing group get averaged, adjacent-face normals blend at shared verts
+o cone_smoothed
+v 3.0 2.0 0.0
+v 4.000000 0.0 0.000000
+v 3.707107 0.0 0.707107
+v 3.000000 0.0 1.000000
+v 2.292893 0.0 0.707107
+v 2.000000 0.0 0.000000
+v 2.292893 0.0 -0.707107
+v 3.000000 0.0 -1.000000
+v 3.707107 0.0 -0.707107
+s 1
+f 10 11 12
+f 10 12 13
+f 10 13 14
+f 10 14 15
+f 10 15 16
+f 10 16 17
+f 10 17 18
+f 10 18 11
+
+# ---- cone C: two smoothing groups on the same object, "s off" between
+# them -> a visible seam where group 1 meets the unsmoothed remainder
+o cone_split_groups
+v 6.0 2.0 0.0
+v 7.000000 0.0 0.000000
+v 6.707107 0.0 0.707107
+v 6.000000 0.0 1.000000
+v 5.292893 0.0 0.707107
+v 5.000000 0.0 0.000000
+v 5.292893 0.0 -0.707107
+v 6.000000 0.0 -1.000000
+v 6.707107 0.0 -0.707107
+s 1
+f 19 20 21
+f 19 21 22
+f 19 22 23
+f 19 23 24
+s off
+f 19 24 25
+f 19 25 26
+f 19 26 27
+f 19 27 20

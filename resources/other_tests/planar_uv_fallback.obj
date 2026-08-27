@@ -1,0 +1,11 @@
+# exercises apply_uv_fallback(): faces with NO "vt" at all get a UV derived
+# from their position within the object's own AABB (computed AFTER every
+# vertex is built, so this must run as a real post-pass, not inline).
+o no_uvs_at_all
+v -1.0 -1.0 0.0
+v  1.0 -1.0 0.0
+v  1.0  1.0 0.0
+v -1.0  1.0 0.0
+v  0.0  2.0 1.0
+f 1 2 3 4
+f 1 3 5

@@ -1,0 +1,19 @@
+# Two triangles...
+
+mtllib my_triangles.mtl
+
+# FIRST TRIANGLE / GROUP:   (will be red and shiny)
+o triangle1
+usemtl material_for_first_triangle
+v 0 0 0
+v 4 0 0
+v 4 2 0
+f -3 -2 -1
+
+# SECOND TRIANGLE / GROUP:   (will be white and transparent) 
+o triangle2
+usemtl material_for_second_triangle
+v 0 0 0
+v 4 0 0
+v 4 2 0
+f -3 -2 -1

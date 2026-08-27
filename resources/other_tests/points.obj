@@ -1,0 +1,30 @@
+# exercises "p": every accepted and every gracefully-dropped case
+
+# baseline triangle so the mesh isn't empty (upload_mesh needs >=1 face)
+v 0.0 0.0 0.0
+v 1.0 0.0 0.0
+v 0.0 1.0 0.0
+f 1 2 3
+
+# case: a single "p" statement with multiple indices makes one point per index
+v 2.0 0.0  0.5
+v 2.4 0.0 -0.5
+v 2.8 0.0  0.5
+p 4 5 6
+
+# case: separate "p" statements, one point each
+v 0.0 2.0 0.0
+p 7
+p 7
+
+# case: negative/relative index
+p -1
+
+# case: out-of-range index -- silently dropped, not a hard fail
+p 999
+
+# case: non-numeric token -- silently dropped
+p notanumber
+
+# case: mixed valid/invalid tokens on the same line
+p 4 999 abc 5

@@ -1,0 +1,13 @@
+# exercises a "mtllib" pointing at a file that doesn't exist: load_mtl()
+# fails to read it, handle_mtllib_line logs a debug line and continues
+# instead of aborting the parse; the subsequent "usemtl" then has nothing
+# to resolve against, so every face gets material_id == -1 (renders with
+# the fallback base texture/default material_ubo, not a crash).
+
+mtllib this_file_does_not_exist.mtl
+
+usemtl also_never_defined
+v 0.0 0.0 0.0
+v 1.0 0.0 0.0
+v 0.0 1.0 0.0
+f 1 2 3
