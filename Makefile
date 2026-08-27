@@ -314,7 +314,7 @@ all: $(NAME)
 
 -include $(DEPS)
 
-$(OBJDIR)/%.o: %.cpp $(FLAGS_FILE) $(GLFW_DEP) $(VULKAN_DEP)
+$(OBJDIR)/%.o: %.cpp $(FLAGS_FILE) $(GLFW_DEP) $(VULKAN_DEP) $(LIBFTPP_LIB)
 	@mkdir -p $(dir $@)
 	@$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 	@if [ "$(NO_PROGRESS)" = "1" ]; then \
@@ -323,7 +323,7 @@ $(OBJDIR)/%.o: %.cpp $(FLAGS_FILE) $(GLFW_DEP) $(VULKAN_DEP)
 		$(MAKECFGDIR)/progress.sh "$<" "$(PAD)" "$(COUNTER)" "$(NEED_OBJS)"; \
 	fi
 
-$(OBJDIR)/%.o: %.c $(FLAGS_FILE) $(GLFW_DEP) $(VULKAN_DEP)
+$(OBJDIR)/%.o: %.c $(FLAGS_FILE) $(GLFW_DEP) $(VULKAN_DEP) $(LIBFTPP_LIB)
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 	@if [ "$(NO_PROGRESS)" = "1" ]; then \

@@ -74,10 +74,10 @@ objects, toggle textures/grid/wireframe info, and inspect basic render stats.
 | # | Requirement |
 |:---:|:---|
 | 1 | A GPU + driver supporting **Vulkan 1.3** (the renderer uses Dynamic Rendering, `VK_KHR_dynamic_rendering`, instead of the old render pass/framebuffer model) |
-| 2 | A windowing environment able to open/manage a window. That is what **GLFW** talks to |
+| 2 | A windowing environment (Wayland or X11) able to open/manage a window. That is what **GLFW** talks to |
 | 3 | `glslangValidator`, to compile the GLSL shaders to SPIR-V at build time (already compiled shaders should also be shipped in the repo) |
 | 4 | A C++20 compiler (`c++`) and a C compiler (`cc`) |
-| 5 | `make` and `pkg-config` |
+| 5 | `make` and `pkg-config`. `cmake` needed only if you need to vendor `glfw3`/`vulkan` |
 
 `pkg-config` is used to find `glfw3` and `vulkan` on the system. If either isn't found,
 the `Makefile` clones and builds it locally under `.deps/` instead (a real GPU driver /
