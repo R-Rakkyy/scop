@@ -23,3 +23,19 @@ called_from_lib:libnvidia-glcore.so
 called_from_lib:libvulkan_intel.so
 called_from_lib:libgvfscommon.so
 called_from_lib:libdbus-1.so
+
+# Wayland client/Vulkan WSI: libwayland locks internally, TSan can't see it (uninstrumented libs)
+called_from_lib:libwayland-client.so
+called_from_lib:libwayland-egl.so
+called_from_lib:libvulkan.so
+called_from_lib:libvulkan_radeon.so
+called_from_lib:libvulkan_lvp.so
+deadlock:libwayland-client.so
+deadlock:libvulkan.so
+mutex:libwayland-client.so
+mutex:libvulkan.so
+mutex:libgvfsdbus.so
+mutex:libglfw.so
+mutex:libVkLayer_MESA_device_select.so
+mutex:vk_destroy_device
+mutex:vk_instance_destroy

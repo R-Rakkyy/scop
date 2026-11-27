@@ -269,10 +269,10 @@ endif
 ifeq ($(LITE),1)
     CXXFLAGS := $(filter-out -O% -g% -fsanitize=%,$(CXXFLAGS))
     CXXFLAGS += -O3 -march=native -flto -fomit-frame-pointer \
-                -ffunction-sections -fdata-sections -pipe -s
+                -ffunction-sections -fdata-sections -pipe
     CFLAGS   := $(filter-out -O% -g% -fsanitize=%,$(CFLAGS))
     CFLAGS   += -O3 -march=native -flto -fomit-frame-pointer \
-                -ffunction-sections -fdata-sections -pipe -s
+                -ffunction-sections -fdata-sections -pipe
     NO_PROGRESS := 1
 endif
 
@@ -280,7 +280,7 @@ endif
 # GLFW/Vulkan loader for their runtime dlopen() of the platform backend/ICD.
 LDFLAGS := $(GLFW_LIBS) $(VULKAN_LIBS) $(LIBFTPP_LIBS) -ldl -pthread
 ifeq ($(LITE),1)
-    LDFLAGS += -flto -Wl,--gc-sections -Wl,-O1
+    LDFLAGS += -flto -s -Wl,--gc-sections -Wl,-O1
 endif
 
 # ----------------------------------------------------------------------------
