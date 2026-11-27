@@ -65,3 +65,11 @@ leak:ffi_get_closure_size@@LIBFFI_BASE_8.1
 leak:libdecor*
 leak:/usr/lib/libdecor*
 
+# Validation layer
+leak:libvulkan*
+leak:libVkLayer*
+leak:libvulkan_*
+leak:libnvidia*
+leak:libGLX*
+leak:libdbus*
+

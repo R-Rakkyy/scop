@@ -114,7 +114,7 @@ static VkSurfaceFormatKHR choose_surface_format(VkPhysicalDevice dev, VkSurfaceK
     return chosen;
 }
 
-static int build_swapchain_create_info(int graphics_family, int present_family, const VkSurfaceCapabilitiesKHR *caps, VkSurfaceFormatKHR fmt, VkSwapchainCreateInfoKHR *out_sci, uint32_t *out_imgc)
+static int build_swapchain_create_info(int graphics_family, int present_family, const VkSurfaceCapabilitiesKHR *caps, VkSurfaceFormatKHR fmt, VkSwapchainCreateInfoKHR *out_sci, uint32_t *out_imgc, uint32_t out_indices[2])
 {
     if (!caps || !out_sci || !out_imgc) return 0;
     VkExtent2D extent       = choose_swap_extent(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT, caps);
@@ -132,11 +132,12 @@ static int build_swapchain_create_info(int graphics_family, int present_family, 
     out_sci->imageArrayLayers   = 1;
     out_sci->imageUsage         = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_EXTRA;
     // If the graphics and present families are different, we need to use CONCURRENT mode and provide both family indices. Otherwise, EXCLUSIVE mode is preferred for performance.
-    uint32_t indices[2] = {(uint32_t)graphics_family, (uint32_t)present_family};
+    out_indices[0] = (uint32_t)graphics_family;
+    out_indices[1] = (uint32_t)present_family;
     if (graphics_family != present_family) {
         out_sci->imageSharingMode       = VK_SHARING_MODE_CONCURRENT;
         out_sci->queueFamilyIndexCount  = 2;
-        out_sci->pQueueFamilyIndices    = indices;
+        out_sci->pQueueFamilyIndices    = out_indices;
     } else {
         out_sci->imageSharingMode       = VK_SHARING_MODE_EXCLUSIVE;
     }
@@ -156,7 +157,8 @@ int vk_create_swapchain(int graphics_family, int present_family)
     VkSurfaceFormatKHR          fmt = choose_surface_format(g_physical, g_surface, &caps);
     VkSwapchainCreateInfoKHR    sci = {0};
     uint32_t                    imgc = 0;
-    if (!build_swapchain_create_info(graphics_family, present_family, &caps, fmt, &sci, &imgc)) {
+    uint32_t                    qfi[2];
+    if (!build_swapchain_create_info(graphics_family, present_family, &caps, fmt, &sci, &imgc, qfi)) {
         ftpp_logf(FTPP_LOG_ERROR, "vk_create_swapchain: failed to build swapchain create info");
         return 0;
     }
