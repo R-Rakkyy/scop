@@ -44,9 +44,10 @@ struct s_UiFrameInputs {
 class UiOverlay {
     public:
         UiOverlay()                             = default;
-        UiOverlay(const UiOverlay &)            = default;
-        UiOverlay &operator=(const UiOverlay &) = default;
+        UiOverlay(const UiOverlay &)            = delete;
+        UiOverlay &operator=(const UiOverlay &) = delete;
         UiOverlay(UiOverlay &&)                 = default;
+        UiOverlay &operator=(UiOverlay &&)      = default;
         ~UiOverlay()                            = default;
 
         void            handle_input(const InputState &in);

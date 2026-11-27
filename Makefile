@@ -266,12 +266,16 @@ ifeq ($(STRICT),1)
 endif
 
 # LITE builds the fastest binary first, lightest second.
+# LTO objects are only linkable if CC and CXX are both GCC (clang emits bitcode plain ld can't read).
 ifeq ($(LITE),1)
+    ifeq ($(shell ($(CC) --version; $(CXX) --version) 2>/dev/null | grep -ci clang),0)
+        LTO_FLAG := -flto
+    endif
     CXXFLAGS := $(filter-out -O% -g% -fsanitize=%,$(CXXFLAGS))
-    CXXFLAGS += -O3 -march=native -flto -fomit-frame-pointer \
+    CXXFLAGS += -O3 -march=native $(LTO_FLAG) -fomit-frame-pointer \
                 -ffunction-sections -fdata-sections -pipe
     CFLAGS   := $(filter-out -O% -g% -fsanitize=%,$(CFLAGS))
-    CFLAGS   += -O3 -march=native -flto -fomit-frame-pointer \
+    CFLAGS   += -O3 -march=native $(LTO_FLAG) -fomit-frame-pointer \
                 -ffunction-sections -fdata-sections -pipe
     NO_PROGRESS := 1
 endif
@@ -280,7 +284,7 @@ endif
 # GLFW/Vulkan loader for their runtime dlopen() of the platform backend/ICD.
 LDFLAGS := $(GLFW_LIBS) $(VULKAN_LIBS) $(LIBFTPP_LIBS) -ldl -pthread
 ifeq ($(LITE),1)
-    LDFLAGS += -flto -s -Wl,--gc-sections -Wl,-O1
+    LDFLAGS += $(LTO_FLAG) -s -Wl,--gc-sections -Wl,-O1
 endif
 
 # ----------------------------------------------------------------------------
