@@ -257,9 +257,12 @@ STRICT_COMMON := -pedantic -Wconversion -Wsign-conversion -Wshadow=local \
                   -Wduplicated-cond -Wrestrict -Wnull-dereference \
                   -Wstack-usage=4096 -Walloc-zero
 
+# Keep only the flags the given compiler accepts (GCC-only flags don't exist on clang/old gcc).
+cc_filter = $(foreach f,$(2),$(if $(shell $(1) -Werror $(f) -x $(3) -c /dev/null -o /dev/null 2>/dev/null && echo ok),$(f)))
+
 ifeq ($(STRICT),1)
-    CXXFLAGS += $(STRICT_COMMON) -Wold-style-cast
-    CFLAGS   += $(STRICT_COMMON)
+    CXXFLAGS += $(call cc_filter,$(CXX),$(STRICT_COMMON) -Wold-style-cast,c++)
+    CFLAGS   += $(call cc_filter,$(CC),$(STRICT_COMMON),c)
 endif
 
 # LITE builds the fastest binary first, lightest second.
