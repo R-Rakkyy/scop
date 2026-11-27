@@ -227,9 +227,9 @@ endif
 WARN_FLAGS := -Wall -Wextra -Werror
 
 # C++: -std=c++20.
-CXXFLAGS ?= $(WARN_FLAGS) -std=c++20 -MMD -MP $(EXTRA_CXXFLAGS)
+CXXFLAGS ?= $(WARN_FLAGS) -std=c++20 -MMD -MP $(EXTRA_CXXFLAGS) -fPIE
 # C: -std=c17. (Vulkan backend relies on C99)
-CFLAGS   ?= $(WARN_FLAGS) -std=c17 -MMD -MP $(EXTRA_CFLAGS)
+CFLAGS   ?= $(WARN_FLAGS) -std=c17 -MMD -MP $(EXTRA_CFLAGS) -fPIE
 
 ifeq ($(DEBUG),1)
     CXXFLAGS += -g -O0
