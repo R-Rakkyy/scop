@@ -360,8 +360,8 @@ debug strict g3 full-debug: all
 # builds then immediately runs the binary.
 asan-mem: all
 	@printf "\n$(COLOR_INFO)Running $(COLOR_BOLD)$(NAME)$(COLOR_RESET) $(COLOR_INFO)under ASan/LSan with suppressions from asan_suppressions.txt$(COLOR_RESET)\n"
-	@ASAN_OPTIONS="detect_leaks=1:verbosity=1:symbolize=1" \
-	LSAN_OPTIONS="suppressions=asan_suppressions.txt:verbosity=1" \
+	@ASAN_OPTIONS="detect_leaks=1:verbosity=1:symbolize=1,fast_unwind_on_malloc=0" \
+	LSAN_OPTIONS="suppressions=asan_suppressions.txt:verbosity=1,print_suppressions=0" \
 	./$(NAME)
 
 asan-thread: all
