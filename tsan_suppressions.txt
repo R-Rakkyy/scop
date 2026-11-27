@@ -39,3 +39,16 @@ mutex:libglfw.so
 mutex:libVkLayer_MESA_device_select.so
 mutex:vk_destroy_device
 mutex:vk_instance_destroy
+
+# X11 / xcb: Vulkan WSI and GLFW share the xcb connection, locked internally (uninstrumented libs)
+called_from_lib:libxcb.so
+called_from_lib:libX11.so
+called_from_lib:libXext.so
+called_from_lib:libXrandr.so
+called_from_lib:libXi.so
+called_from_lib:libXcursor.so
+called_from_lib:libvulkan_intel.so
+deadlock:libxcb.so
+deadlock:libX11.so
+mutex:libxcb.so
+mutex:libX11.so
